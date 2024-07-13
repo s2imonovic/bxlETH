@@ -1,0 +1,12 @@
+.hash-link-icon-wrapper {
+  path {
+    fill: var(--color-text-muted);
+  }
+}
+.hash-link-hover {
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}
