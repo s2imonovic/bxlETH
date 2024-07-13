@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  color: white;
+}
+
+.form-text {
+  color: white !important;
+}
+
 #root {
   overflow: hidden;
   min-height: 100vh;
@@ -40,6 +48,9 @@
   }
   .border-default {
     @apply border border-solid border-[var(--border-color)];
+  }
+  .border-default-transparent {
+    @apply border border-solid border-transparent;
   }
   .border-default-y {
     @apply border-y border-solid border-[var(--border-color)];

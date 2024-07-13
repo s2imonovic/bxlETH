@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 interface IBox {
-  children: JSX.Element;
+  children: React.ReactNode;
   className?: string;
 }
 

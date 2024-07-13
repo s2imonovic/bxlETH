@@ -8,8 +8,9 @@ export default {
       },
       backgroundColor: {
         app: "#1e1d1b",
-        "box-primary": "rgb(82 82 82 / 0.1)",
-        "box-secondary": "rgb(82 82 82 / 0.5)",
+        "box-primary": "#232220",
+        "box-secondary": "#3a3a39",
+        "box-primary-primary": "#FFB200",
       },
       colors: {
         "active-campain": "#3A5542",
