@@ -18,6 +18,7 @@
     "@near-wallet-selector/modal-ui": "^8.9.5",
     "@near-wallet-selector/my-near-wallet": "^8.9.5",
     "@vitejs/plugin-react": "^4.3.1",
+    "@visx/tooltip": "^3.3.0",
     "axios": "^1.6.8",
     "bitcoinjs-lib": "^6.1.5",
     "bn.js": "^5.2.1",

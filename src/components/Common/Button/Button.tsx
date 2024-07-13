@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import CicularProgress from "../CicularProgress/CicularProgress";
 import clsx from "clsx";
+import Tooltip from "../Tooltip/Tooltip";
+import { TooltipProps } from "@visx/tooltip/lib/tooltips/Tooltip";
+import { NearContext } from "@/context/context";
 
-type btnType = "primary" | "gredient" | "simple" | "secondary";
+export type btnType = "primary" | "gredient" | "simple" | "secondary";
 
 type SrcObj = {
   condition: boolean;
   msg: string;
 };
+
+interface ButtonTooltipPtops extends TooltipProps {
+  showOnBtnDisabled?: boolean;
+}
 
 interface IButton<T = any> extends React.ButtonHTMLAttributes<T> {
   text?: string;
@@ -19,6 +26,7 @@ interface IButton<T = any> extends React.ButtonHTMLAttributes<T> {
   textSrc?: SrcObj[];
   className?: string;
   progressClass?: string;
+  tooltipProps?: ButtonTooltipPtops;
   onClick?: React.MouseEventHandler<T>;
 }
 
@@ -42,58 +50,57 @@ export default function Button({
   textSrc,
   loadingText,
   disabled,
+  tooltipProps,
   ...rest
 }: IButton) {
+  // @ts-ignore
+  const { wallet, signedAccountId } = useContext(NearContext);
+
   const textClass = "text-md font-[600]";
-  const virentClass = virentClassSrc[varient];
+  const virentClass = virentClassSrc[!!signedAccountId ? varient : "primary"];
 
-  const foundTextObj = textSrc && textSrc?.find((TextObj) => TextObj.condition);
-  const renderedTextMsg = foundTextObj ? foundTextObj.msg : text;
+  const signIn = () => {
+    wallet.signIn();
+  };
 
-  const foundLoadingObj =
-    loadingSrc && loadingSrc?.find((loadingObj) => loadingObj.condition);
+  const handleClick = !!signedAccountId ? onClick : signIn;
 
-  const renderedLoadingMsg = foundLoadingObj
-    ? foundLoadingObj.msg
-    : loadingText;
-
-  const foundDisabledObj =
-    disabledSrc && disabledSrc?.find((disabledObj) => disabledObj.condition);
-  const disabledMsg = foundDisabledObj ? foundDisabledObj.msg : "";
+  const renderedTextMsg = !!signedAccountId ? text : "Login";
 
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled || loading}
-      className={clsx(
-        "whitespace-pre h-[40px] px-5 w-full transition-50 rounded-[8px] flex justify-center items-center",
-        textClass,
-        className,
-        virentClass,
-        !disabled &&
-          !foundDisabledObj?.condition &&
-          !loading &&
-          "hover:brightness-95 active:scale-105",
-        (disabled || loading || disabledMsg) &&
-          "!bg-transparent-15 !text-transparent-40 cursor-not-allowed opacity-70 hover:brightness-70"
-      )}
-      {...rest}
-    >
-      {!loading ? (
-        <>{children || <span className={textClass}>{renderedTextMsg}</span>}</>
-      ) : (
-        <div
-          className={clsx(
-            "flex items-center justify-center gap-3",
-            progressClass
-          )}
-        >
-          <span>{renderedLoadingMsg}</span>
-          <CicularProgress
-            className={clsx("!text-white text-[8px]", progressClass)}
-          />
-        </div>
-      )}
-    </button>
+    <Tooltip {...tooltipProps}>
+      <button
+        onClick={handleClick}
+        disabled={disabled || loading}
+        className={clsx(
+          "whitespace-pre h-[40px] px-5 w-full transition-50 rounded-[8px] flex justify-center items-center",
+          textClass,
+          className,
+          virentClass,
+          !disabled && !loading && "hover:brightness-95 active:scale-105",
+          (disabled || loading) &&
+            "!bg-transparent-15 !text-transparent-40 cursor-not-allowed opacity-70 hover:brightness-70"
+        )}
+        {...rest}
+      >
+        {!loading ? (
+          <>
+            {children || <span className={textClass}>{renderedTextMsg}</span>}
+          </>
+        ) : (
+          <div
+            className={clsx(
+              "flex items-center justify-center gap-3",
+              progressClass
+            )}
+          >
+            <span>{loadingText}</span>
+            <CicularProgress
+              className={clsx("!text-white text-[8px]", progressClass)}
+            />
+          </div>
+        )}
+      </button>
+    </Tooltip>
   );
 }

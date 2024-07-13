@@ -1,29 +1,21 @@
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import clsx from "clsx";
 import EthIcon from "@/assets/svgs/EthIcon.svg?react";
+// @ts-ignore
 import bxlEthImg from "@/assets/images/bxl-coin-img.png";
 import AmountField, { ITextsForAmountField } from "../AmountField/AmountField";
+import { BOTTOM_INPUT_KEY, TOP_INPUT_KEY } from "../StakeEthTab/StakeEthTab";
 
 export default function EthStakeInputsContainer({
   texts,
   isStakeTab,
-  inputNames,
 }: {
   texts: { topText: ITextsForAmountField; bottomText: ITextsForAmountField };
   isStakeTab: boolean;
-  inputNames: {
-    topInputName: string;
-    bottomInputName: string;
-  };
 }) {
-  const { watch, control, handleSubmit } = useFormContext();
+  const { control } = useFormContext();
 
   const { topText, bottomText } = texts;
-
-  const { bottomInputName, topInputName } = inputNames;
-
-  const topInputValue = watch(topInputName);
-  const bottomInputValue = watch(bottomInputName);
 
   const renderedTopIcon = isStakeTab ? EthIcon : bxlEthImg;
   const renderedBottomIcon = isStakeTab ? bxlEthImg : EthIcon;
@@ -36,14 +28,14 @@ export default function EthStakeInputsContainer({
     >
       <div className="flex flex-col gap-2">
         <AmountField
-          name={topInputName}
+          name={TOP_INPUT_KEY}
           control={control}
           texts={topText}
           icon={renderedTopIcon}
           hasSwitcher={isStakeTab}
         />
         <AmountField
-          name={bottomInputName}
+          name={BOTTOM_INPUT_KEY}
           control={control}
           texts={bottomText}
           disabled

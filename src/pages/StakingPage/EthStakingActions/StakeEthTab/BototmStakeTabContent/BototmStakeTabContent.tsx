@@ -1,41 +1,50 @@
-import Button from "@/components/Common/Button/Button";
-import { ABI as abi } from "@/constants/abi";
-import { useContext, useImperativeHandle, useRef, useState } from "react";
+import Button, { btnType } from "@/components/Common/Button/Button";
+import { useContext, useState } from "react";
 import { NearContext } from "@/context/context";
 import { MPC_CONTRACT } from "@/App";
+import { useFormContext } from "react-hook-form";
+import { TOP_INPUT_KEY } from "../StakeEthTab";
+import {
+  createPayloadUserDeposit,
+  createPayloadWithdraw,
+} from "@/services/contracts";
+import { EthStakingContext } from "../../EthStakingActions";
 
-const contract = "0x7A2162E95B5b8E56348b480bcB239d48fF8A71E9";
+const BototmStakeTabContent = ({ text, Eth, loadingText }) => {
+  const {
+    tab: { currentTab },
+    steps: { currentStep, setStep },
+    hash: { setHash },
+    msg: { setMessage },
+    address: { address: senderAddress },
+  } = useContext(EthStakingContext);
+  const { watch } = useFormContext();
 
-const BototmStakeTabContent = ({
-  text,
-  Eth,
-  loadingText,
-  onClick,
-  senderAddress,
-}) => {
+  const topInputValue = watch(TOP_INPUT_KEY);
+
   const [loading, setLoading] = useState(false);
   const [signedTx, setSignedTx] = useState(null);
 
   // @ts-ignore
   const { wallet } = useContext(NearContext);
 
-  console.log({ senderAddress });
-
-  async function createPayload() {
-    const data = Eth.createTransactionData(contract, abi, "userDepositETH");
-    const { transaction, payload } = await Eth.createPayload(
-      senderAddress,
-      contract,
-      1,
-      data
-    );
-    return { transaction, payload };
-  }
+  const payloadFnMapper = {
+    stake: createPayloadUserDeposit,
+    withdraw: createPayloadWithdraw,
+  };
 
   async function chainSignature() {
-    const { transaction, payload } = await createPayload();
+    setMessage("🏗️ Creating transaction");
 
-    console.log({ transaction, payload });
+    const createPayload = payloadFnMapper[currentTab];
+    const { transaction, payload } = await createPayload(
+      senderAddress,
+      topInputValue
+    );
+
+    setMessage(
+      `🕒 Asking ${MPC_CONTRACT} to sign the transaction, this might take a while`
+    );
 
     try {
       const signedTransaction = await Eth.requestSignatureToMPC(
@@ -47,7 +56,13 @@ const BototmStakeTabContent = ({
         senderAddress
       );
       setSignedTx(signedTransaction);
+      setStep("relay");
+      setMessage(
+        `✅ Signed payload ready to be relayed to the Ethereum network`
+      );
     } catch (e) {
+      // @ts-ignore
+      setMessage(`❌ Error: ${e.message}`);
       setLoading(false);
     }
   }
@@ -60,41 +75,48 @@ const BototmStakeTabContent = ({
 
   async function relayTransaction() {
     setLoading(true);
+    setMessage(
+      "🔗 Relaying transaction to the Ethereum network... this might take a while"
+    );
     try {
       const txHash = await Eth.relayTransaction(signedTx);
-      console.log({ txHash });
+      setHash(txHash);
+      setStep("success");
+      setMessage(
+        <>
+          <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank">
+            {" "}
+            ✅ Successful{" "}
+          </a>
+        </>
+      );
     } catch (e) {
       console.log({ e });
+      // @ts-ignore
+      setMessage(`❌ Error: ${e.message}`);
     }
 
     setLoading(false);
   }
 
-  console.log({ signedTx });
+  const onClick =
+    currentStep === "request" ? UIChainSignature : relayTransaction;
+
+  const varient: btnType = currentStep === "success" ? "primary" : "gredient";
+
+  const btnText = currentStep === "success" ? "Relay was Successufull" : text;
 
   return (
     <>
-      {!signedTx && (
-        <Button
-          varient="gredient"
-          loading={loading}
-          text={text}
-          loadingText={loadingText}
-          onClick={UIChainSignature}
-          className="h-[52px] !rounded-[16px]"
-          type="submit"
-        />
-      )}
-      {signedTx && (
-        <Button
-          varient="primary"
-          text={"Relay"}
-          loading={loading}
-          loadingText="Relaying..."
-          onClick={relayTransaction}
-          className="h-[52px] !rounded-[16px]"
-        />
-      )}
+      <Button
+        varient={varient}
+        loading={loading}
+        text={btnText}
+        loadingText={loadingText}
+        onClick={onClick}
+        className="h-[52px] !rounded-[16px]"
+        type="submit"
+      />
     </>
   );
 };

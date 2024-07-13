@@ -6,35 +6,53 @@ import { useContext, useEffect, useState } from "react";
 import Box from "@/components/Common/Box/Box";
 import BototmStakeTabContent from "./BototmStakeTabContent/BototmStakeTabContent";
 import { Ethereum } from "@/services/ethereum.js";
+import { EthStakingContext } from "../EthStakingActions";
 
 const Sepolia = 11155111;
 const Eth = new Ethereum("https://rpc2.sepolia.org", Sepolia);
 
+export const TOP_INPUT_KEY = "top-input";
+export const BOTTOM_INPUT_KEY = "bottom-input";
+
 export default function StakeEthTab({ isStakeTab }) {
+  const {
+    steps: { currentStep },
+    address: { setAddress },
+  } = useContext(EthStakingContext);
   const methods = useForm({ mode: "onBlur" });
   const { handleSubmit, watch, setValue } = methods;
 
-  const btnText = isStakeTab ? "Stake" : "Withdraw";
-  const btnLoadingText = isStakeTab ? "Staking..." : "Withdrawing...";
+  const btnTextStep1 = isStakeTab
+    ? "Request Signature Stake"
+    : "Request Signature Withdraw";
+  const btnLoadingTextStep1 = isStakeTab
+    ? "Requesting Signature Stake..."
+    : "Requesting Signature Withdraw...";
+
+  const btnTextStep2 = isStakeTab ? "Relay Stake" : "Relay Withdraw";
+  const btnLoadingTextStep2 = isStakeTab
+    ? "Relaying Stake..."
+    : "Relaying Withdraw...";
+
+  const btnText = currentStep === "request" ? btnTextStep1 : btnTextStep2;
+  const btnLoadingText =
+    currentStep === "request" ? btnLoadingTextStep1 : btnLoadingTextStep2;
 
   const renderedInputTexts = isStakeTab ? textsStake : textsWithdrawal;
 
-  const topInputName = isStakeTab ? "eth-to-bxl" : "bxl-to-eth";
-  const bottomInputName = isStakeTab ? "eth-to-bxl-dis" : "bxl-to-eth-dis";
-
-  const topInputValue = watch(topInputName);
-  const bottomInputValue = watch(bottomInputName);
+  const topInputValue = watch(TOP_INPUT_KEY);
+  const bottomInputValue = watch(BOTTOM_INPUT_KEY);
 
   useEffect(() => {
-    setValue(topInputName, "");
-    setValue(bottomInputName, "");
+    setValue(TOP_INPUT_KEY, "");
+    setValue(BOTTOM_INPUT_KEY, "");
   }, [isStakeTab]);
 
   useEffect(() => {
     const brxETHtoEth = 1.5;
     const EthToBrxl = 1 / brxETHtoEth;
     const renderedRatio = isStakeTab ? EthToBrxl : brxETHtoEth;
-    setValue(bottomInputName, topInputValue * renderedRatio || "");
+    setValue(BOTTOM_INPUT_KEY, topInputValue * renderedRatio || "");
   }, [topInputValue]);
 
   const handleStaking = () => {};
@@ -48,7 +66,6 @@ export default function StakeEthTab({ isStakeTab }) {
 
   // @ts-ignore
   const { wallet, signedAccountId } = useContext(NearContext);
-  const [senderAddress, setSenderAddress] = useState("");
 
   useEffect(() => {
     setEthAddress();
@@ -58,7 +75,7 @@ export default function StakeEthTab({ isStakeTab }) {
         signedAccountId,
         "ethereum-1"
       );
-      setSenderAddress(address);
+      setAddress(address);
 
       const balance = await Eth.getBalance(address);
 
@@ -67,22 +84,19 @@ export default function StakeEthTab({ isStakeTab }) {
   }, [signedAccountId]);
 
   return (
-    <Box>
+    <Box className="box-shadow-on-hover">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <EthStakeInputsContainer
             texts={renderedInputTexts}
             isStakeTab={isStakeTab}
-            inputNames={{ topInputName, bottomInputName }}
           />
           <div className="w-100 d-flex flex-column gap-2 flex-center mt-10">
             <div className="relative w-full">
               <BototmStakeTabContent
-                senderAddress={senderAddress}
                 text={btnText}
                 Eth={Eth}
                 loadingText={btnLoadingText}
-                onClick={onClick}
               />
             </div>
           </div>

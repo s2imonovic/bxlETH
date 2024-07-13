@@ -11,6 +11,7 @@
 }
 
 .switcher-item-wrapper {
+  box-shadow: transparent;
   &.selected {
     animation: gradientAnimation 1s ease infinite;
     background-size: 300% 300%;
