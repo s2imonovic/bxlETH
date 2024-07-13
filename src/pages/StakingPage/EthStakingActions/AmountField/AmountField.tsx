@@ -49,7 +49,7 @@ const AmountField = ({
           {typeof Icon === "string" ? (
             <img src={Icon} className="w-[28px]" />
           ) : (
-            <Icon />
+            <Icon className="w-[26px]" />
           )}
         </div>
         <Input
