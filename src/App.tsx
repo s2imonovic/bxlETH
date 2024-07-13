@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar.jsx";
 import { Wallet } from "./services/near-wallet.js";
 import { EthereumView } from "./components/Ethereum/Ethereum.jsx";
 import { BitcoinView } from "./components/Bitcoin.jsx";
+import StakingPage from "./pages/StakingPage/StakingPage.js";
+import Layout from "./layout/index.js";
 
 // CONSTANTS
 const MPC_CONTRACT = "v2.multichain-mpc.testnet";
@@ -20,6 +22,8 @@ function App() {
   const [status, setStatus] = useState("Please login to request a signature");
   const [chain, setChain] = useState("eth");
 
+  console.log({ chain, status });
+
   useEffect(() => {
     wallet.startUp(setSignedAccountId);
   }, []);
@@ -27,7 +31,7 @@ function App() {
   return (
     <NearContext.Provider value={{ wallet, signedAccountId }}>
       <Navbar />
-      <div className="container">
+      {/* <div className="container">
         <h4> 🔗 NEAR Multi Chain </h4>
         <p className="small">
           Safely control accounts on other chains through the NEAR MPC service.
@@ -75,7 +79,8 @@ function App() {
         )}
 
         <div className="mt-3 small text-center">{status}</div>
-      </div>
+      </div> */}
+      <Layout />
     </NearContext.Provider>
   );
 }

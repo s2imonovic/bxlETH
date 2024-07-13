@@ -1,0 +1,50 @@
+@import '../../../../../../components/Common/Fields/AmountField/AmountField.scss';
+
+.heth-to-eth-input-wrapper {
+  & .amount-field {
+    &:first-of-type {
+      background-color: transparent;
+
+      &:not(.stake-amount-field) {
+        &:hover {
+          background-color: var(--neutral-200);
+        }
+      }
+    }
+    &:not(.stake-amount-field) {
+      &:has(input:focus) {
+        background-color: var(--neutral-200);
+      }
+    }
+  }
+  .switch-arrow-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-inline: auto;
+    margin-block: -5px;
+
+    z-index: 2;
+
+    background-color: var(--vdao-color);
+
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+    &.stake-switcher {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .switch-arrow {
+      transform: rotateX(180deg);
+      path {
+        stroke: var(--neutral-100) !important;
+      }
+    }
+  }
+}

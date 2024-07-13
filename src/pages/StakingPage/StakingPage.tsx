@@ -1,5 +1,9 @@
-// import EthStakingActions from '@/components/EthStakingActions/EthStakingActions';
+import EthStakingActions from "./EthStakingActions/EthStakingActions";
 
 export default function StakingPage() {
-  return <div>{/* <EthStakingActions /> */}</div>;
+  return (
+    <div>
+      <EthStakingActions />
+    </div>
+  );
 }
