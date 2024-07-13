@@ -6,8 +6,9 @@ import {
   EthStakingContext,
 } from "../EthStakingActions/EthStakingActions";
 import clsx from "clsx";
-import { formatTxHash } from "@/services/helpers";
+import { formatTxHash, wait } from "@/services/helpers";
 import { NearContext } from "@/context/context";
+import Tooltip from "@/components/Common/Tooltip/Tooltip";
 const ChainSelector = () => {
   // @ts-ignore
   const { signedAccountId } = useContext(NearContext);
@@ -16,6 +17,7 @@ const ChainSelector = () => {
   } = useContext(EthStakingContext);
   const [selectedChain, setSelectedChain] = useState<CHAIN_ID_TYPES>("eth");
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     setSelectedAddress(address);
@@ -35,7 +37,21 @@ const ChainSelector = () => {
         {!!signedAccountId ? (
           <>
             <span className="whitespace-nowrap">Your address </span>
-            <span className="">{formatTxHash(selectedAddress).showed}</span>
+            <Tooltip text={!isCopied ? "Copy address" : "Copied"} width={150}>
+              <span
+                className="cursor-pointer py-1 px-2 rounded-[8px] hover:bg-box-secondary"
+                onClick={() => {
+                  navigator.clipboard.writeText(address);
+                  setIsCopied(true);
+                }}
+                onMouseLeave={async () => {
+                  await wait(250);
+                  setIsCopied(false);
+                }}
+              >
+                {formatTxHash(selectedAddress).showed}
+              </span>
+            </Tooltip>
           </>
         ) : (
           <span>Login in</span>

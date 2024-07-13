@@ -1,11 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
-import './Tooltip.scss';
-import { useTooltipInPortal } from '@visx/tooltip';
-import { useWindowWidth } from '@/hooks/useWidth';
-import ShowAt from '../ShowAt/ShowAt';
+import React, { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import "./Tooltip.scss";
+import { useTooltipInPortal } from "@visx/tooltip";
+import { useWindowWidth } from "@/hooks/useWidth";
+import ShowAt from "../ShowAt/ShowAt";
 
-export type IPlacment = 'top' | 'left' | 'right' | 'bottom' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+export type IPlacment =
+  | "top"
+  | "left"
+  | "right"
+  | "bottom"
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right";
 
 export interface TooltipProps {
   children?: React.ReactNode;
@@ -35,7 +43,7 @@ export default function Tooltip({
   className: passedClassName,
   tooltipClassName,
   textClassName,
-  placment: initialPlacment = 'top',
+  placment: initialPlacment = "top",
   mobilePlacement,
   tabletPlacement,
   id,
@@ -50,7 +58,8 @@ export default function Tooltip({
   const isMobile = windowWidth < 650;
   const isTablet = windowWidth < 834;
 
-  const [currentPlacement, setCurrentPlacement] = useState<IPlacment>(initialPlacment);
+  const [currentPlacement, setCurrentPlacement] =
+    useState<IPlacment>(initialPlacment);
 
   const { containerRef, containerBounds } = useTooltipInPortal({
     scroll: true,
@@ -77,28 +86,40 @@ export default function Tooltip({
       return;
     }
 
-    const horizentalDirections: IPlacment[] = ['right', 'left'];
+    const horizentalDirections: IPlacment[] = ["right", "left"];
     if (horizentalDirections.includes(initialPlacment)) {
       if (spaces?.[initialPlacment] < 20) {
-        setCurrentPlacement('top');
+        setCurrentPlacement("top");
       } else setCurrentPlacement(initialPlacment);
     }
   }, [spaces.left, spaces.right, windowWidth]);
 
-  const tooltipContentWidth = isMobile ? mobileWidth : isTablet ? tabletWidth : width;
+  const tooltipContentWidth = isMobile
+    ? mobileWidth
+    : isTablet
+    ? tabletWidth
+    : width;
 
   if (!show || disabled || !text) return children;
 
   return (
-    <div ref={containerRef} className={clsx('tooltip-wrapped w-full', passedClassName)} id={id}>
+    <div
+      ref={containerRef}
+      className={clsx("tooltip-wrapped w-full", passedClassName)}
+      id={id}
+    >
       <ShowAt at={show && !disabled && !!text}>
         <div
           ref={tooltipContentRef}
-          className={clsx('tooltip p-3', tooltipClassName, `${currentPlacement}`)}
+          className={clsx(
+            "tooltip p-1",
+            tooltipClassName,
+            `${currentPlacement}`
+          )}
           style={{ ...tooltipStyle, minWidth: tooltipContentWidth, maxWidth }}
         >
           <div className="flex tooltip-text-wrapper">
-            <span className={clsx('tooltip-text', textClassName)}>{text}</span>
+            <span className={clsx("tooltip-text", textClassName)}>{text}</span>
           </div>
         </div>
       </ShowAt>
