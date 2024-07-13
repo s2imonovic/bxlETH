@@ -38,12 +38,12 @@ const AmountField = ({
     <div
       className={clsx(
         "flex flex-col gap-2 rounded-[20px] p-3 min-h-[118px]",
-        !disabled && "border border-secondary",
-        disabled && "bg-box-secondary pointer-events-none"
+        !disabled && "border !border-secondary",
+        disabled && "!bg-box-secondary pointer-events-none"
       )}
       onClick={handleInputFocus}
     >
-      <span className="text-muted">{topLeftText}</span>
+      <span className="!text-muted">{topLeftText}</span>
       <div className="flex justify-between gap-2.5">
         <div>
           {typeof Icon === "string" ? (
@@ -58,7 +58,7 @@ const AmountField = ({
           inputProps={{ ...inputProps, type: "number", disabled }}
         />
       </div>
-      <span className="text-muted">{bottomLeftText}</span>
+      <span className="!text-muted">{bottomLeftText}</span>
     </div>
   );
 };

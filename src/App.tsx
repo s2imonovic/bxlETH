@@ -1,4 +1,4 @@
-import { NearContext } from "./context.js";
+import { NearContext } from "./context/context.js";
 
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
@@ -30,7 +30,7 @@ function App() {
 
   return (
     <NearContext.Provider value={{ wallet, signedAccountId }}>
-      <Navbar />
+      <Layout />
       {/* <div className="container">
         <h4> 🔗 NEAR Multi Chain </h4>
         <p className="small">
@@ -80,7 +80,6 @@ function App() {
 
         <div className="mt-3 small text-center">{status}</div>
       </div> */}
-      <Layout />
     </NearContext.Provider>
   );
 }

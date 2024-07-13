@@ -23,10 +23,10 @@ interface IButton<T = any> extends React.ButtonHTMLAttributes<T> {
 }
 
 const virentClassSrc: Record<btnType, string> = {
-  gredient: "text-white bg-main-gradient",
-  primary: "text-[#000] bg-primary",
-  secondary: "text-white bg-secondary",
-  simple: "text-[#000] bg-content-primary",
+  gredient: "!text-white !bg-main-gradient",
+  primary: "!text-[#000] !bg-primary",
+  secondary: "!text-white !bg-secondary",
+  simple: "!text-[#000] !bg-content-primary",
 };
 
 export default function Button({
@@ -75,7 +75,7 @@ export default function Button({
           !loading &&
           "hover:brightness-95 active:scale-105",
         (disabled || loading || disabledMsg) &&
-          "bg-transparent-15 text-transparent-40 cursor-not-allowed opacity-70 hover:brightness-70"
+          "!bg-transparent-15 !text-transparent-40 cursor-not-allowed opacity-70 hover:brightness-70"
       )}
       {...rest}
     >
@@ -90,7 +90,7 @@ export default function Button({
         >
           <span>{renderedLoadingMsg}</span>
           <CicularProgress
-            className={clsx("text-[#000] text-[8px]", progressClass)}
+            className={clsx("!text-white text-[8px]", progressClass)}
           />
         </div>
       )}

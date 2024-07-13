@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NearContext } from "../context";
+import { NearContext } from "../context/context";
 
 import logo from "/logo-black.svg";
 

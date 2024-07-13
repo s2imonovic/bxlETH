@@ -1,6 +1,6 @@
-import { InputHTMLAttributes } from 'react';
-import clsx from 'clsx';
-import { Control, Controller, FieldValues } from 'react-hook-form';
+import { InputHTMLAttributes } from "react";
+import clsx from "clsx";
+import { Control, Controller, FieldValues } from "react-hook-form";
 
 export type InputPropsType = InputHTMLAttributes<HTMLInputElement>;
 
@@ -20,13 +20,13 @@ const Input = ({
   rules = { required: false },
 }: IControlledInput) => {
   const inputProps: InputPropsType = {
-    type: 'text',
-    autoComplete: 'off',
+    type: "text",
+    autoComplete: "off",
     ...passedProps,
   };
 
   if (rules.required) {
-    rules.required = 'Required';
+    rules.required = "Required";
   }
 
   return (
@@ -39,8 +39,8 @@ const Input = ({
           {...field}
           {...inputProps}
           className={clsx(
-            'bg-transparent text-xl outline-none w-full text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
-            className,
+            "bg-transparent text-xl outline-none w-full !text-white [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+            className
           )}
         />
       )}
