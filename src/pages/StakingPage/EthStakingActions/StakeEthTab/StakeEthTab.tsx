@@ -3,6 +3,7 @@ import { textsStake, textsWithdrawal } from "./text";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import Button from "@/components/Common/Button/Button";
+import Box from "@/components/Common/Box/Box";
 
 export default function StakeEthTab({ isStakeTab }) {
   const methods = useForm({ mode: "onBlur" });
@@ -41,7 +42,7 @@ export default function StakeEthTab({ isStakeTab }) {
   };
 
   return (
-    <div className="bg-box-primary p-4 border-6 rounded-[24px]">
+    <Box>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <EthStakeInputsContainer
@@ -63,6 +64,6 @@ export default function StakeEthTab({ isStakeTab }) {
           </div>
         </form>
       </FormProvider>
-    </div>
+    </Box>
   );
 }

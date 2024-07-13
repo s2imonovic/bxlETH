@@ -2,10 +2,4 @@
   .main-content {
     min-height: calc(100dvh - 80px);
   }
-
-  .content-wrapper {
-    &:has(.no-padding) {
-      padding: 0 !important;
-    }
-  }
 }

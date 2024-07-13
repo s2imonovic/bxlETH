@@ -31,7 +31,7 @@ function App() {
   return (
     <NearContext.Provider value={{ wallet, signedAccountId }}>
       <Layout />
-      {/* <div className="container">
+      <div className="container">
         <h4> 🔗 NEAR Multi Chain </h4>
         <p className="small">
           Safely control accounts on other chains through the NEAR MPC service.
@@ -79,7 +79,7 @@ function App() {
         )}
 
         <div className="mt-3 small text-center">{status}</div>
-      </div> */}
+      </div>
     </NearContext.Provider>
   );
 }

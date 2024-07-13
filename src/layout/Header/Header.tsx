@@ -29,7 +29,9 @@ export default function Header() {
             ETHGlobal
           </span>
           <div className="w-[1px] h-[21px] !bg-transparent-30"></div>
-          <span className="!text-muted font-[300] text-[14px]">dApp name</span>
+          <span className="!text-muted font-[300] text-[14px]">
+            Brussels ETH Staking Platform
+          </span>
         </div>
         <div className="flex gap-2.5">
           <Button onClick={renderedOnClick} varient="primary">
