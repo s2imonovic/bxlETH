@@ -33,7 +33,8 @@ const ChainSelector = () => {
             <div
               className={clsx(
                 "switcher-link bg-box-primary",
-                "flex items-center rounded-[12px] absolute z-[1000] border-default-transparent gap-4 px-3 py-2 transition-50 cursor-pointer bg-red hover:bg-box-secondary"
+                "flex items-center rounded-[12px] absolute z-[1000] border-default-transparent gap-4 px-3 py-2 transition-50 cursor-pointer bg-red hover:bg-box-secondary",
+                selectedChain === chainId && "bg-box-secondary"
               )}
             >
               <Icon className="w-[35px]" />
