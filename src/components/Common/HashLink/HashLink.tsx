@@ -8,7 +8,7 @@ interface IHashLink {
 }
 
 function HashLink({ hash }: IHashLink) {
-  const link = `https://sepolia.etherscan.io/tx${hash}`;
+  const link = `https://sepolia.etherscan.io/tx/${hash}`;
 
   const refreshThePage = async () => {
     await wait(100);
