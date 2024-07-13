@@ -1,5 +1,5 @@
+import { useState } from "react";
 import Box from "@/components/Common/Box/Box";
-import React, { useState } from "react";
 import {
   appChains,
   CHAIN_ID_TYPES,
