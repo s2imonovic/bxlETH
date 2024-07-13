@@ -1,9 +1,14 @@
+import { NearContext } from "@/context/context";
 import EthStakeInputsContainer from "../EthStakeInputsContainer/EthStakeInputsContainer";
 import { textsStake, textsWithdrawal } from "./text";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import Button from "@/components/Common/Button/Button";
+import { useContext, useEffect, useState } from "react";
 import Box from "@/components/Common/Box/Box";
+import BototmStakeTabContent from "./BototmStakeTabContent/BototmStakeTabContent";
+import { Ethereum } from "@/services/ethereum.js";
+
+const Sepolia = 11155111;
+const Eth = new Ethereum("https://rpc2.sepolia.org", Sepolia);
 
 export default function StakeEthTab({ isStakeTab }) {
   const methods = useForm({ mode: "onBlur" });
@@ -41,6 +46,26 @@ export default function StakeEthTab({ isStakeTab }) {
     console.log({ data });
   };
 
+  // @ts-ignore
+  const { wallet, signedAccountId } = useContext(NearContext);
+  const [senderAddress, setSenderAddress] = useState("");
+
+  useEffect(() => {
+    setEthAddress();
+
+    async function setEthAddress() {
+      const { address } = await Eth.deriveAddress(
+        signedAccountId,
+        "ethereum-1"
+      );
+      setSenderAddress(address);
+
+      const balance = await Eth.getBalance(address);
+
+      console.log({ balance, address });
+    }
+  }, [signedAccountId]);
+
   return (
     <Box>
       <FormProvider {...methods}>
@@ -52,13 +77,12 @@ export default function StakeEthTab({ isStakeTab }) {
           />
           <div className="w-100 d-flex flex-column gap-2 flex-center mt-10">
             <div className="relative w-full">
-              <Button
-                varient="gredient"
+              <BototmStakeTabContent
+                senderAddress={senderAddress}
                 text={btnText}
+                Eth={Eth}
                 loadingText={btnLoadingText}
                 onClick={onClick}
-                className="h-[52px] !rounded-[16px]"
-                type="submit"
               />
             </div>
           </div>

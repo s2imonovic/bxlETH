@@ -9,7 +9,7 @@ import StakingPage from "./pages/StakingPage/StakingPage.js";
 import Layout from "./layout/index.js";
 
 // CONSTANTS
-const MPC_CONTRACT = "v2.multichain-mpc.testnet";
+export const MPC_CONTRACT = "v2.multichain-mpc.testnet";
 
 // NEAR WALLET
 const wallet = new Wallet({
@@ -21,8 +21,6 @@ function App() {
   const [signedAccountId, setSignedAccountId] = useState("");
   const [status, setStatus] = useState("Please login to request a signature");
   const [chain, setChain] = useState("eth");
-
-  console.log({ chain, status });
 
   useEffect(() => {
     wallet.startUp(setSignedAccountId);
