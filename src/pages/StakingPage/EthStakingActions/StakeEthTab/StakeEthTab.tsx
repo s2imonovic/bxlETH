@@ -26,7 +26,7 @@ export default function StakeEthTab({ isStakeTab }) {
 
   useEffect(() => {
     const brxETHtoEth = 1.5;
-    const EthToBrxl = 0.75;
+    const EthToBrxl = 1 / brxETHtoEth;
     const renderedRatio = isStakeTab ? EthToBrxl : brxETHtoEth;
     setValue(bottomInputName, topInputValue * renderedRatio || "");
   }, [topInputValue]);
