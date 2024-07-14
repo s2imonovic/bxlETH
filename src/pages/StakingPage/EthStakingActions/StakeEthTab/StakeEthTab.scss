@@ -1,0 +1,61 @@
+@import '../../../../../../components/Common/Fields/AmountField/AmountField.scss';
+
+.stake-eth-wrapper {
+  & .amount-field {
+    &:first-of-type {
+      @extend .input-focused;
+    }
+  }
+  .switch-arrow-wrapper-stake {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-inline: auto;
+    margin-block: -5px;
+
+    z-index: 1;
+
+    background-color: var(--vdao-color);
+
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+    .switch-arrow-stake {
+      transform: rotateX(180deg);
+      path {
+        stroke: var(--sidebar-color) !important;
+      }
+    }
+  }
+}
+.buy-eth-stake-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  background-color: var(--color-primary);
+  &:hover {
+    background-color: var(--color-primary-hover);
+  }
+  cursor: pointer;
+  svg {
+    width: 16px;
+    height: 16px;
+    z-index: 2;
+  }
+  span {
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+  }
+  &:active {
+    transform: translateY(-50%) scale(0.97) !important;
+  }
+}
