@@ -4,7 +4,7 @@ import { textsStake, textsWithdrawal } from "./text";
 import { FormProvider, useForm } from "react-hook-form";
 import { useContext, useEffect, useState } from "react";
 import Box from "@/components/Common/Box/Box";
-import BototmStakeTabContent from "./BototmStakeTabContent/BototmStakeTabContent";
+import BottomStakeTabContent from "./BototmStakeTabContent/BototmStakeTabContent";
 import { Ethereum } from "@/services/ethereum.js";
 import { EthStakingContext } from "../EthStakingActions";
 
@@ -93,7 +93,7 @@ export default function StakeEthTab({ isStakeTab }) {
           />
           <div className="w-100 d-flex flex-column gap-2 flex-center mt-10">
             <div className="relative w-full">
-              <BototmStakeTabContent
+              <BottomStakeTabContent
                 text={btnText}
                 Eth={Eth}
                 loadingText={btnLoadingText}

@@ -10,7 +10,7 @@ import {
 } from "@/services/contracts";
 import { EthStakingContext } from "../../EthStakingActions";
 
-const BototmStakeTabContent = ({ text, Eth, loadingText }) => {
+const BottomStakeTabContent = ({ text, Eth, loadingText }) => {
   const {
     tab: { currentTab },
     steps: { currentStep, setStep },
@@ -47,7 +47,7 @@ const BototmStakeTabContent = ({ text, Eth, loadingText }) => {
     );
 
     try {
-      const signedTransaction = await Eth.requestSignatureToMPC(
+      const { big_r, s, recovery_id } = await Eth.requestSignatureToMPC(
         wallet,
         MPC_CONTRACT,
         "ethereum-1",
@@ -55,6 +55,7 @@ const BototmStakeTabContent = ({ text, Eth, loadingText }) => {
         transaction,
         senderAddress
       );
+      const signedTransaction = await Eth.reconstructSignature(big_r, s, recovery_id, transaction, senderAddress);
       setSignedTx(signedTransaction);
       setStep("relay");
       setMessage(
@@ -121,4 +122,4 @@ const BototmStakeTabContent = ({ text, Eth, loadingText }) => {
   );
 };
 
-export default BototmStakeTabContent;
+export default BottomStakeTabContent;

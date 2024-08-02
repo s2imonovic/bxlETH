@@ -4,12 +4,11 @@ import { Wallet } from "./services/near-wallet.js";
 import Layout from "./layout/index.js";
 
 // CONSTANTS
-export const MPC_CONTRACT = "v2.multichain-mpc.testnet";
+export const MPC_CONTRACT = "v1.signer-dev.testnet";
 
 // NEAR WALLET
 const wallet = new Wallet({
   network: "testnet",
-  createAccessKeyFor: MPC_CONTRACT,
 });
 
 function App() {
