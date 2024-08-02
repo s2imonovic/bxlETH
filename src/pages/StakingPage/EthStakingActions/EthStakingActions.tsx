@@ -44,12 +44,6 @@ export const appChains: IAppChains[] = [
     address: "bnb1w34k53p0x334v3v45tnxyn4yf2m45y3ys52g8v",
   },
   {
-    chainId: "btc",
-    name: "Bitcoin",
-    icon: BtcIcon,
-    address: "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
-  },
-  {
     chainId: "avax",
     name: "Avalanche",
     icon: AvalIcon,
